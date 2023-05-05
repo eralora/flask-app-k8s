@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ytokenov
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ytokenov
+  namespace: ytokenov
+secrets:
+- name: ytokenov
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: ytokenov
+  name: ytokenov
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: ytokenov
+  name: ytokenov
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: ytokenov
+subjects:
+- kind: ServiceAccount
+  name: ytokenov
+  namespace: ytokenov
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ytokenov
+  namespace: ytokenov
+  annotations:
+    kubernetes.io/service-account.name: ytokenov
+type: kubernetes.io/service-account-token
+
+
+
+
+
+
+readonly ENCRYPTED_TOKEN=$(kubectl --namespace "${USERNAME}" get secrets "${SECRET_NAME}" --output jsonpath='{.data.token}')
+readonly DECRYPTED_TOKEN=$(echo "${ENCRYPTED_TOKEN}" | base64 --decode)
+
+kubectl config set-credentials "minikube-${USERNAME}" --token="${DECRYPTED_TOKEN}"
+kubectl config set-context "minikube-${USERNAME}" --namespace="${USERNAME}" --user="minikube-${USERNAME}" --cluster=minikube
+
+kubectl config use-context "${OLD_KUBE_CONTEXT}"

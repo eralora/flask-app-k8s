@@ -1,0 +1,28 @@
+apiVersion: v1
+data:
+  MONGO_INITDB_ROOT_PASSWORD: ZXhhbXBsZQ==
+  MONGO_INITDB_ROOT_USERNAME: cm9vdA==
+kind: Secret
+metadata:
+  creationTimestamp: "2023-02-16T13:13:36Z"
+  name: mongo
+  #namespace: ytokenov
+  resourceVersion: "16716"
+  uid: f6d326b9-9679-412e-a50b-6cc21c260ae2
+type: Opaque
+
+---
+
+apiVersion: v1
+data:
+  BG_COLOR: teal
+  FAIL_FLAG: "false"
+  MONGO_HOST: mongo
+  MONGO_PORT: "27017"
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2023-02-16T13:16:01Z"
+  name: application
+  #namespace: ytokenov
+  resourceVersion: "16839"
+  uid: 100a73a9-f18e-4b0f-a38e-77ca1d01b0ac

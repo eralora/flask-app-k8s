@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  application:
+    image: gyeradot/hostname_application
+    ports:
+      - 5000:5000
+    environment:
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      BG_COLOR: teal
+      FAIL_FLAG: "yes"
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
